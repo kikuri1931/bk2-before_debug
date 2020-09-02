@@ -14,22 +14,59 @@
 		<h2>Book detail</h2>
 
 		<table class="table">
+			<tr>
+				<td>
+					<%= link_to user_path(@booking.user) do %>
+						<%= attachment_image_tag(@booking.user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %><br>
+						<%= @booking.user.name %>
+					<% end %>
+				</td>
+				<td><%= link_to @booking.title, book_path(@booking) %></td>
+				<td><%= @booking.body %></td>
+				<td>
+					<% if @booking.favorited_by?(current_user) %>
+						<%= link_to book_favorites_path(@booking), method: :delete do %>
+							<i class="glyphicon glyphicon-heart" ></i>
+							<%= @booking.favorites.count %>
+						<% end %>
+					<% else %>
+						<%= link_to book_favorites_path(@booking), method: :post do %>
+							<i class="glyphicon glyphicon-heart-empty"></i>
+							<%= @booking.favorites.count %>
+						<% end %>
+					<% end %>
+					</td>
+				<td>
+					<p>コメント数 ：<%= @booking.book_comments.count %></p>
+				</td>
+			<% if @booking.user == current_user %>
+				<td><%= link_to "Edit", edit_book_path(@booking), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
+				<td><%= link_to "Destroy", book_path(@booking), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@booking.id}" %></td>
+			<% end %>
+			</tr>
+		</table>
+		<table>
+			<% @booking.book_comments.each do |book_comment| %>
 				<tr>
 					<td>
-						<%= link_to user_path(@booking.user) do %>
-							<%= attachment_image_tag(@booking.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %><br>
-						<%= @booking.user.name %>
+				      	<%= link_to user_path(book_comment.user) do %>
+							<%= attachment_image_tag(book_comment.user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %><br>
+							<%= book_comment.user.name %>
 						<% end %>
 					</td>
-					<td><%= link_to @booking.title, book_path(@booking) %></td>
-					<td><%= @booking.body %></td>
-				<% if @booking.user == current_user %>
-					<td><%= link_to "Edit", edit_book_path(@booking), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
-					<td><%= link_to "Destroy", book_path(@booking), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@booking.id}" %></td>
-				<% end %>
+					<td><%= book_comment.comment %></td>
+					<td>
+						<% if book_comment.user == current_user %>
+							<%= link_to "Destroy", book_book_comment_path(book_comment.book, book_comment), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger" %>
+						<% end %>
+					</td>
 				</tr>
-			</table>
-
+			<% end %>
+		</table>
+		<%= form_for [@booking, @book_comment] do |f| %>
+			<%= f.text_area :comment, rows:'5', style:"width:80%" %>
+			<%= f.submit "送信" %>
+		<% end %>
 	</div>
 </div>
 
