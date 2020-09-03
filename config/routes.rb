@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   root 'home#top'
   get 'home/about'
   get "users/:id" => "users#show", as: :mypage
-  resources :users,only: [:show,:index,:edit,:update]
+  resources :users,only: [:show,:index,:edit,:update] do
+    resource :relationships, only: [:create, :destroy]
+  end
+  get 'users/:id/follows' => "users#follows", as: :follows
+  get 'users/:id/followers' => "users#followers", as: :followers
   resources :books do
   	resource :favorites,only: [:create,:destroy]
   	resources :book_comments, only: [:create, :destroy]
