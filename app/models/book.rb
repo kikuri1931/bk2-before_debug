@@ -2,6 +2,23 @@ class Book < ApplicationRecord
 	belongs_to :user
 	has_many :favorites, dependent: :destroy
 	has_many :book_comments, dependent: :destroy
+
+	# ---検索機能---
+	def self.search(search,word)
+	    if search == "forward_match"
+	      @book = Book.where("title LIKE?","#{word}%")
+	    elsif search == "backward_match"
+	      @book = Book.where("title LIKE?","%#{word}")
+	    elsif search == "perfect_match"
+	      @book = Book.where(title: "#{word}")
+	    elsif search == "partial_match"
+	      @book = Book.where("title LIKE?","%#{word}%")
+	    else
+	      @book = Book.none
+	    end
+  	end
+  	# ---検索機能---
+
 	#バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。
 	#presence trueは空欄の場合を意味する。
 	validates :title, presence: true

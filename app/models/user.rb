@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :book_comments, dependent: :destroy
   attachment :profile_image, destroy: false
 
+  # ---フォロー機能---
   has_many :relationships, dependent: :destroy
   has_many :followings, through: :relationships, source: :follow
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy
@@ -28,6 +29,23 @@ class User < ApplicationRecord
   def following?(other_user)
     self.followings.include?(other_user)
   end
+ # ---フォロー機能---
+
+ # ---検索機能---
+  def self.search(search,word)
+    if search == "forward_match"
+      @user = User.where("name LIKE?","#{word}%")
+    elsif search == "backward_match"
+      @user = User.where("name LIKE?","%#{word}")
+    elsif search == "perfect_match"
+      @user = User.where(name: "#{word}")
+    elsif search == "partial_match"
+      @user = User.where("name LIKE?","%#{word}%")
+    else
+      @user = User.none
+    end
+  end
+ # ---検索機能---
 
   #バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。
   validates :name, length: {maximum: 20, minimum: 2}

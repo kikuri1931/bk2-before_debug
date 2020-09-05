@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
   get 'users/:id/follows' => "users#follows", as: :follows
   get 'users/:id/followers' => "users#followers", as: :followers
+  get 'search' => "search#search"
   resources :books do
   	resource :favorites,only: [:create,:destroy]
   	resources :book_comments, only: [:create, :destroy]

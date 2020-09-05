@@ -17,18 +17,4 @@
 //= require bootstrap-sprockets
 //= require_tree .
 // 処理キャンセルのフラグを定義：0…処理可能　1…キャンセル
-var clickFlg = true;
-jQuery(function($) {
-	$(".double").on("click", function() {
-		if(clickFlg) {
-			// イベント処理中はフラグをoffにします。
-			clickFlg = false;
-			
-			// クリック処理を実施
-		} else {
-			// イベント処理中は処理しない
-			return false;
-		}
-	});
-});
 	

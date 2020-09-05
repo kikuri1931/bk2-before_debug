@@ -11,11 +11,9 @@ class FavoritesController < ApplicationController
 	   book = Book.find(params[:book_id])
 	   favorite = current_user.favorites.find_by(book_id: book.id)
 	   if current_user.favorites.find_by(book_id: book.id) != nil
-		   favorite.destroy
-		   redirect_back(fallback_location: books_path)
-		else
-		   redirect_back(fallback_location: books_path)
+		  favorite.destroy
 		end
+		redirect_back(fallback_location: books_path)
 	end
 
 end
