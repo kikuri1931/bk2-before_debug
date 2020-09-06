@@ -1,0 +1,5 @@
+$("#comments_counts_<%= @booking.id %>").html("<%= j(render partial: 'book_comments/comment_counts', locals: { booking: @booking }) %>");
+
+$("#comments_area_<%= @booking.id %>").html("<%= j(render partial: 'book_comments/index', locals: { booking: @booking }) %>");
+
+$("#comment_form_<%= @booking.id %>").html("<%= j(render partial: 'book_comments/comment', locals: { booking: @booking, book_comment: @book_comment }) %>");

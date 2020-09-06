@@ -6,15 +6,15 @@ class Book < ApplicationRecord
 	# ---検索機能---
 	def self.search(search,word)
 	    if search == "forward_match"
-	      @book = Book.where("title LIKE?","#{word}%")
+	      @books = Book.where("title LIKE?","#{word}%")
 	    elsif search == "backward_match"
-	      @book = Book.where("title LIKE?","%#{word}")
+	      @books = Book.where("title LIKE?","%#{word}")
 	    elsif search == "perfect_match"
-	      @book = Book.where(title: "#{word}")
+	      @books = Book.where(title: "#{word}")
 	    elsif search == "partial_match"
-	      @book = Book.where("title LIKE?","%#{word}%")
+	      @books = Book.where("title LIKE?","%#{word}%")
 	    else
-	      @book = Book.none
+	      @books = Book.none
 	    end
   	end
   	# ---検索機能---
