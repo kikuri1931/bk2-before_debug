@@ -12,33 +12,7 @@
 
 	<div class="col-xs-9">
 		<h2>Book detail</h2>
-
-		<table class="table">
-			<tr>
-				<td>
-					<%= link_to user_path(@booking.user) do %>
-						<%= attachment_image_tag(@booking.user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %><br>
-						<%= @booking.user.name %>
-					<% end %>
-				</td>
-				<td><%= link_to @booking.title, book_path(@booking) %></td>
-				<td><%= @booking.body %></td>
-				<td>
-					<div id="show_likes_<%= @booking.id %>">
-							<%= render partial: 'favorites/like', locals:{ book: @booking } %>
-					</div>
-				</td>
-				<td>
-					<div id="comments_counts_<%= @booking.id %>">
-						<%= render partial: 'book_comments/comment_counts', locals: { booking: @booking } %>
-					</div>
-				</td>
-			<% if @booking.user == current_user %>
-				<td><%= link_to "Edit", edit_book_path(@booking), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
-				<td><%= link_to "Destroy", book_path(@booking), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@booking.id}" %></td>
-			<% end %>
-			</tr>
-		</table>
+			<%= render 'books/show', booking: @booking %>
 		<table id="comments_area_<%= @booking.id %>">
 			<%= render partial: 'book_comments/index', locals: { booking: @booking } %>
 		</table>
