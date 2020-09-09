@@ -1,3 +1,5 @@
-$('#index_likes_<%= @book.id %>').html("<%= j(render partial: 'favorites/like', locals: { book: @book }) %>");
-
-$('#show_likes_<%= @booking.id %>').html("<%= j(render partial: 'favorites/like', locals: { book: @booking }) %>");
+if (location.pathname == '/books') {
+  $(".book_<%= @book.id %>").html("<%= j(render 'books/book',  book: @book ) %>")
+} else {
+  $(".book_<%= @booking.id %>").html("<%= j(render 'books/show',  booking: @booking ) %>")
+}

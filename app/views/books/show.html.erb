@@ -12,13 +12,20 @@
 
 	<div class="col-xs-9">
 		<h2>Book detail</h2>
-			<%= render 'books/show', booking: @booking %>
-		<table id="comments_area_<%= @booking.id %>">
-			<%= render partial: 'book_comments/index', locals: { booking: @booking } %>
+		<table class="table">
+			<tr class="book_<%= @booking.id %>">
+				<%= render 'books/show', booking: @booking %>
+			</tr>
 		</table>
-		<div id="comment_form_<%= @booking.id %>">
-			<%= render partial: 'book_comments/comment', locals: { booking: @booking, book_comment: @book_comment } %>
-		</div>
+		<table class="show-tb comment_<%= @booking.id %>">
+			<%= render 'book_comments/index', book_comments: @booking.book_comments  %>
+		</table>
+		<div class="comment-form">
+      		<%= form_with model:[@booking, @book_comment], data: {remote: true} do |f| %>
+        		<%= f.text_area :comment, size: "90x5" %>
+        		<%= f.submit '送信' %>
+     		<% end %>
+    	</div>
 	</div>
 </div>
 

@@ -16,5 +16,4 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require_tree .
-// 処理キャンセルのフラグを定義：0…処理可能　1…キャンセル
-	
+//= require jquery.jpostal	

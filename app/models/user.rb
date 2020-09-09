@@ -47,6 +47,25 @@ class User < ApplicationRecord
   end
  # ---検索機能---
 
+ # ---住所検索機能---
+  include JpPrefecture
+  jp_prefecture :prefecture_code  
+
+  def prefecture_name
+    JpPrefecture::Prefecture.find(code: prefecture_code).try(:name)
+  end
+  
+  def prefecture_name=(prefecture_name)
+    self.prefecture_code = JpPrefecture::Prefecture.find(name: prefecture_name).code
+  end
+ # ---住所検索機能---
+
+ #---マップ表示機能---
+  geocoded_by :city
+  after_validation :geocode, if: :city_changed?
+
+ #---マップ表示機能---
+  
   #バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。
   validates :name, length: {maximum: 20, minimum: 2}
   validates :introduction, length: {maximum: 50}

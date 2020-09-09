@@ -1,5 +1,3 @@
-$("#comments_counts_<%= @booking.id %>").html("<%= j(render partial: 'book_comments/comment_counts', locals: { booking: @booking }) %>");
-
-$("#comments_area_<%= @booking.id %>").html("<%= j(render partial: 'book_comments/index', locals: { booking: @booking }) %>");
-
-$("#comment_form_<%= @booking.id %>").html("<%= j(render partial: 'book_comments/comment', locals: { booking: @booking, book_comment: @book_comment }) %>");
+$("textarea").val("");
+$(".book_<%= @booking.id %>").html("<%= j(render 'books/show', booking: @booking) %>");
+$(".comment_<%= @booking.id %>").html("<%= j(render 'book_comments/index', book_comments: @booking.book_comments) %>");
