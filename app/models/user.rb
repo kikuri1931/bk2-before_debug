@@ -4,6 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+ after_create :send_welcome_mail
+  def send_welcome_mail
+    ThanksMailer.send_signup_email(self).deliver
+  end
+
+
   has_many :books, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
@@ -60,13 +66,11 @@ class User < ApplicationRecord
   end
  # ---住所検索機能---
 
- #---マップ表示機能---
-  geocoded_by :city
-  after_validation :geocode, if: :city_changed?
-
- #---マップ表示機能---
-  
   #バリデーションは該当するモデルに設定する。エラーにする条件を設定できる。
   validates :name, length: {maximum: 20, minimum: 2}
   validates :introduction, length: {maximum: 50}
+  validates :postal_code, presence: true
+  validates :prefecture_code, presence: true
+  validates :city, presence: true
+  validates :street, presence: true
 end
