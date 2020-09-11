@@ -1,0 +1,16 @@
+<% if user_signed_in? %>
+<% @anotherUserRooms.each do |e| %>
+	<h2><%= e.user.name %>さんとのチャット</h2>
+<% end %>
+	<% if @chats.present? %>
+		<div class="chat_<%= @chats.ids %>">
+			<%= render 'chat', chats: @chats %>
+		</div>
+	<% end %>
+<br>
+	<%= form_with model: [@chat], data: {remote: true} do |f| %>
+		<%= f.text_field :chat %>
+		<%= f.hidden_field :room_id, value: @room.id %>
+	 
+	<% end %>
+<% end %>

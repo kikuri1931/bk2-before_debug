@@ -4,16 +4,20 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
- after_create :send_welcome_mail
-  def send_welcome_mail
-    ThanksMailer.send_signup_email(self).deliver
-  end
-
-
   has_many :books, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :book_comments, dependent: :destroy
+  has_many :chats, dependent: :destroy
+  has_many :user_rooms, dependent: :destroy
+  has_many :rooms, through: :user_rooms
   attachment :profile_image, destroy: false
+
+
+  after_create :send_welcome_mail
+  def send_welcome_mail
+    ThanksMailer.send_signup_email(self).deliver
+end
+
 
   # ---フォロー機能---
   has_many :relationships, dependent: :destroy

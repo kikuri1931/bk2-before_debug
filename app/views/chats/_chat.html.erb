@@ -1,0 +1,12 @@
+<% chats.each do |m| %>
+	<% if m.user.id == current_user.id %>
+		<div class="col-xs-3 text-right">
+			<%= m.chat %>
+		</div><br>
+	<% else %>
+		<div class="text-left">
+			<%= m.chat %>
+		</div><br>
+	<% end %>
+<% end %>
+	

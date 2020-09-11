@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :users,only: [:show,:index,:edit,:update] do
     resource :relationships, only: [:create, :destroy]
   end
+  resources :chats, only: [:create,:show]
+  resources :rooms, only: [:create]
   get 'users/:id/follows' => "users#follows", as: :follows
   get 'users/:id/followers' => "users#followers", as: :followers
   get '/search', to: "search#search"

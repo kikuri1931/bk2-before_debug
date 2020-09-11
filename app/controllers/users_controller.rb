@@ -4,6 +4,24 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    if user_signed_in?
+      @currentUserUserRoom = UserRoom.where(user_id: current_user.id)
+      @userUserRoom = UserRoom.where(user_id: @user.id)
+      unless @user.id == current_user.id
+        @currentUserUserRoom.each do |cu|
+          @userUserRoom.each do |u|
+            if cu.room_id == u.room_id
+              @haveRoom = true
+              @roomId = cu.room_id
+            end
+          end
+        end
+        unless @haveRoom
+          @room = Room.new
+          @userRoom = UserRoom.new
+        end
+      end
+    end
     @books = @user.books
     @book = Book.new
   end

@@ -3,6 +3,21 @@
 		<h2>User info</h2>
 		<%= render 'users/profile', user: @user %>
 
+		<% if user_signed_in? %>
+			<% unless @user.id == current_user.id %>
+				<% if @haveRoom == true %>
+					<%= link_to "chatを始める", chat_path(@roomId) %>
+				<%else %>
+					<%= form_with(model:@room, local: true) do |f| %>
+						<%= fields_for @userRoom do |e| %>
+							<%= e.hidden_field :user_id, value: @user.id %>	
+						<% end %>
+						<%= f.submit "chatを始める" %>
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>
+
 		<h2>New book</h2>
 		<%= render 'books/newform', book: @book %>
 	</div>
